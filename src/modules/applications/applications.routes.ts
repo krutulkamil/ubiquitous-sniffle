@@ -6,7 +6,7 @@ import {
 } from './applications.controllers';
 import { createApplicationJSONSchema } from './applications.schemas';
 
-export async function applicationRoutes(app: FastifyInstance) {
+export async function applicationsRoutes(app: FastifyInstance) {
   app.post(
     '/',
     {

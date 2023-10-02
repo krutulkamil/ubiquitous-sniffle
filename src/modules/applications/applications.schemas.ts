@@ -7,7 +7,7 @@ const createApplicationBodySchema = z.object({
   }),
 });
 
-export type TCreateApplicationBodySchema = z.TypeOf<
+export type TCreateApplicationBody = z.TypeOf<
   typeof createApplicationBodySchema
 >;
 

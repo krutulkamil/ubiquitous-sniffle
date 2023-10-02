@@ -8,13 +8,13 @@ import {
   USER_ROLE_PERMISSIONS,
 } from '../../config/permissions';
 import { logger } from '../../utils/logger';
-import type { TCreateApplicationBodySchema } from './applications.schemas';
+import type { TCreateApplicationBody } from './applications.schemas';
 
 export async function createApplicationHandler(
-  req: FastifyRequest<{ Body: TCreateApplicationBodySchema }>,
+  request: FastifyRequest<{ Body: TCreateApplicationBody }>,
   _: FastifyReply
 ) {
-  const { name } = req.body;
+  const { name } = request.body;
 
   const application = await createApplication({ name });
 
