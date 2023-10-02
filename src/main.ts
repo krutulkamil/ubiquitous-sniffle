@@ -2,7 +2,7 @@ import { migrate } from 'drizzle-orm/node-postgres/migrator';
 
 import { buildServer } from './utils/server';
 import { env } from './config/env';
-import { db } from "./db";
+import { db } from './db';
 
 type TAppType = Awaited<ReturnType<typeof buildServer>>;
 
