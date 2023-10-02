@@ -1,0 +1,45 @@
+{
+  "name": "ubiquitous-sniffle",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/krutulkamil/ubiquitous-sniffle.git",
+  "author": "krutulkamil <krutulkamil@onet.pl>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "migrate": "drizzle-kit generate:pg",
+    "lint": "eslint ./ --ext .js,.ts",
+    "lint:fix": "eslint ./ --fix --ext .js,.ts"
+  },
+  "dependencies": {
+    "argon2": "^0.31.1",
+    "dayjs": "^1.11.10",
+    "drizzle-orm": "^0.28.6",
+    "fastify": "^4.23.2",
+    "fastify-guard": "^2.0.0",
+    "fastify-zod": "^1.4.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.11.3",
+    "pino": "^8.15.3",
+    "pino-pretty": "^10.2.0",
+    "zennv": "^0.1.1",
+    "zod": "^3.22.2",
+    "zod-to-json-schema": "^3.21.4"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.3",
+    "@types/node": "^20.8.0",
+    "@types/pg": "^8.10.3",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "drizzle-kit": "^0.19.13",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-standard-with-typescript": "^39.1.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.3",
+    "tsx": "^3.13.0",
+    "typescript": "^5.2.2"
+  }
+}
