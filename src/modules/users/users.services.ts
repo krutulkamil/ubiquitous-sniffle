@@ -1,8 +1,8 @@
 import argon2 from 'argon2';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
 import { db } from '../../db';
-import { users, usersToRoles } from '../../db/schema';
+import { roles, users, usersToRoles } from '../../db/schema';
 
 type TNewUser = typeof users.$inferInsert;
 type TNewUserToRole = typeof usersToRoles.$inferInsert;
@@ -34,4 +34,66 @@ export async function assignRoleToUser(data: TNewUserToRole) {
   const result = await db.insert(usersToRoles).values(data).returning();
 
   return result[0];
+}
+
+interface IGetUserByEmail {
+  email: string;
+  applicationId: string;
+}
+
+export async function getUserByEmail({
+  email,
+  applicationId,
+}: IGetUserByEmail) {
+  const result = await db
+    .select({
+      id: users.id,
+      name: users.name,
+      email: users.email,
+      applicationId: users.applicationId,
+      roleId: roles.id,
+      password: users.password,
+      permissions: roles.permissions,
+    })
+    .from(users)
+    .where(and(eq(users.email, email), eq(users.applicationId, applicationId)))
+    .leftJoin(
+      usersToRoles,
+      and(
+        eq(usersToRoles.userId, users.id),
+        eq(usersToRoles.applicationId, users.applicationId)
+      )
+    )
+    .leftJoin(roles, eq(roles.id, usersToRoles.roleId));
+
+  if (!result.length) return null;
+
+  const user = result.reduce(
+    (acc, curr) => {
+      if (!acc.id) {
+        return {
+          ...curr,
+          permissions: new Set(curr.permissions),
+        };
+      }
+
+      if (!curr.permissions) {
+        return acc;
+      }
+
+      for (const permission of curr.permissions) {
+        acc.permissions.add(permission);
+      }
+
+      return acc;
+    },
+    {} as Omit<(typeof result)[number], 'permissions'> & {
+      permissions: Set<string>;
+    }
+  );
+
+  return {
+    ...user,
+    permissions: Array.from(user.permissions),
+  };
 }
