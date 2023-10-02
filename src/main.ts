@@ -1,5 +1,8 @@
+import { migrate } from 'drizzle-orm/node-postgres/migrator';
+
 import { buildServer } from './utils/server';
 import { env } from './config/env';
+import { db } from "./db";
 
 type TAppType = Awaited<ReturnType<typeof buildServer>>;
 
@@ -13,6 +16,10 @@ async function main() {
   await app.listen({
     port: env.PORT,
     host: env.HOST,
+  });
+
+  await migrate(db, {
+    migrationsFolder: './migrations',
   });
 
   const signals = ['SIGINT', 'SIGTERM', 'SIGQUIT'] as const;
