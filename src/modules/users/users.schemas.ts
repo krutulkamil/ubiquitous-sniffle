@@ -28,3 +28,26 @@ export type TCreateUsersBody = z.TypeOf<typeof createUsersBodySchema>;
 export const createUsersJSONSchema = {
   body: zodToJsonSchema(createUsersBodySchema, 'createUsersBodySchema'),
 };
+
+const loginBodySchema = z.object({
+  email: z
+    .string({
+      required_error: 'Email is required',
+    })
+    .email('Not a valid email address'),
+  password: z
+    .string({
+      required_error: 'Password is required',
+    })
+    .min(6, 'Password too short - should be 6 chars minimum')
+    .max(24, 'Password too long - should be 24 chars maximum'),
+  applicationId: z.string({
+    required_error: 'Application ID is required',
+  }),
+});
+
+export type TLoginBody = z.TypeOf<typeof loginBodySchema>;
+
+export const loginJSONSchema = {
+  body: zodToJsonSchema(loginBodySchema, 'loginBodySchema'),
+};
