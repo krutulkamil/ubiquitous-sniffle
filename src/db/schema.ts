@@ -51,3 +51,27 @@ export const roles = pgTable(
     };
   }
 );
+
+export const usersToRoles = pgTable(
+  'usersToRoles',
+  {
+    applicationId: uuid('application_id')
+      .references(() => applications.id)
+      .notNull(),
+    roleId: uuid('role_id')
+      .references(() => roles.id)
+      .notNull(),
+    userId: uuid('user_id')
+      .references(() => users.id)
+      .notNull(),
+  },
+  (usersToRoles) => {
+    return {
+      cpk: primaryKey(
+        usersToRoles.applicationId,
+        usersToRoles.roleId,
+        usersToRoles.userId
+      ),
+    };
+  }
+);
