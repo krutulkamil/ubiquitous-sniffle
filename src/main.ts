@@ -1,4 +1,5 @@
 import { buildServer } from './utils/server';
+import { env } from './config/env';
 
 type TAppType = Awaited<ReturnType<typeof buildServer>>;
 
@@ -10,7 +11,8 @@ async function main() {
   const app = await buildServer();
 
   await app.listen({
-    port: 3000,
+    port: env.PORT,
+    host: env.HOST,
   });
 
   const signals = ['SIGINT', 'SIGTERM', 'SIGQUIT'] as const;
