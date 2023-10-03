@@ -7,7 +7,10 @@ export async function createRoleHandler(
   request: FastifyRequest<{ Body: TCreateRoleBody }>,
   _: FastifyReply
 ) {
-  const { name, applicationId, permissions } = request.body;
+  const user = request.user;
+  const applicationId = user.applicationId;
+
+  const { name, permissions } = request.body;
 
   return await createRole({
     name,

@@ -11,6 +11,7 @@ import { logger } from './logger';
 type TRequestUser = {
   id: string;
   scopes: Array<string>;
+  applicationId: string;
 };
 
 declare module 'fastify' {

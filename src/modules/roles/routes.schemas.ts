@@ -10,11 +10,11 @@ const createRoleBodySchema = z.object({
   permissions: z.array(z.enum(ALL_PERMISSIONS), {
     required_error: 'Permissions are required',
   }),
-  applicationId: z
-    .string({
-      required_error: 'Application ID is required',
-    })
-    .uuid(),
+  // applicationId: z
+  //   .string({
+  //     required_error: 'Application ID is required',
+  //   })
+  //   .uuid(),
 });
 
 export type TCreateRoleBody = z.TypeOf<typeof createRoleBodySchema>;
