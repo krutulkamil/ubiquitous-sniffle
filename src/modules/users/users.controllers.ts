@@ -8,8 +8,9 @@ import {
   getUsersByApplication,
 } from './users.services';
 import { getRoleByName } from '../roles/roles.services';
-import { logger } from '../../utils/logger';
 import { SYSTEM_ROLES } from '../../config/permissions';
+import { logger } from '../../utils/logger';
+import { env } from '../../config/env';
 import type { TCreateUsersBody } from './users.schemas';
 import type { TLoginBody } from './users.schemas';
 
@@ -86,7 +87,6 @@ export async function loginHandler(
     });
   }
 
-  // TODO: CHANGE THIS SECRET
   const token = jwt.sign(
     {
       id: user.id,
@@ -94,7 +94,11 @@ export async function loginHandler(
       applicationId,
       scopes: user.password,
     },
-    'secret'
+    env.ACCESS_TOKEN_PRIVATE_KEY,
+    {
+      algorithm: 'RS256',
+      expiresIn: '15m',
+    }
   );
 
   return { token };
