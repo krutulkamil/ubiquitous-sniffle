@@ -95,7 +95,7 @@ export async function loginHandler(
       id: user.id,
       email,
       applicationId,
-      scopes: user.password,
+      scopes: user.permissions,
     },
     env.ACCESS_TOKEN_PRIVATE_KEY,
     {
