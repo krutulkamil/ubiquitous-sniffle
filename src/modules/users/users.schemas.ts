@@ -51,3 +51,18 @@ export type TLoginBody = z.TypeOf<typeof loginBodySchema>;
 export const loginJSONSchema = {
   body: zodToJsonSchema(loginBodySchema, 'loginBodySchema'),
 };
+
+export const assignRoleToUserBodySchema = z.object({
+  userId: z.string().uuid(),
+  roleId: z.string().uuid(),
+  applicationId: z.string().uuid(),
+});
+
+export type TAssignRoleToUserBody = z.TypeOf<typeof assignRoleToUserBodySchema>;
+
+export const assignRoleToUserJSONSchema = {
+  body: zodToJsonSchema(
+    assignRoleToUserBodySchema,
+    'assignRoleToUserBodySchema'
+  ),
+};

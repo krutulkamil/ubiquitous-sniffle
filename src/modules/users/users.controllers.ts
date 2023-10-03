@@ -11,8 +11,11 @@ import { getRoleByName } from '../roles/roles.services';
 import { SYSTEM_ROLES } from '../../config/permissions';
 import { logger } from '../../utils/logger';
 import { env } from '../../config/env';
-import type { TCreateUsersBody } from './users.schemas';
-import type { TLoginBody } from './users.schemas';
+import type {
+  TAssignRoleToUserBody,
+  TCreateUsersBody,
+  TLoginBody,
+} from './users.schemas';
 
 export async function createUserHandler(
   request: FastifyRequest<{ Body: TCreateUsersBody }>,
@@ -102,4 +105,31 @@ export async function loginHandler(
   );
 
   return { token };
+}
+
+export async function assignRoleToUserHandler(
+  request: FastifyRequest<{ Body: TAssignRoleToUserBody }>,
+  reply: FastifyReply
+) {
+  const { userId, roleId, applicationId } = request.body;
+
+  try {
+    return await assignRoleToUser({
+      userId,
+      roleId,
+      applicationId,
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      logger.error(
+        `[Controller] AssignRoleToUserHandler Error: ${error.message}`
+      );
+      return reply.code(400).send({
+        message: 'Could not assign role to user',
+      });
+    }
+
+    logger.error(`[Controller] AssignRoleToUserHandler Error: ${error}`);
+    return reply.status(500).send({ error: 'Could not assign role to user' });
+  }
 }

@@ -5,6 +5,8 @@ export const ALL_PERMISSIONS = [
   // POSTS
   'posts:write', // allowed to create a post
   'posts:read', // allowed to read a post
+  'posts:delete', // allowed to delete posts
+  'posts:edit-own', // only allowed to edit own posts
 ] as const;
 
 export type TPermission = (typeof ALL_PERMISSIONS)[number];
